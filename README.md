@@ -65,10 +65,10 @@
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#features">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#current-features">Prerequisites</a></li>
+        <li><a href="#planned-features">Installation</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -96,31 +96,26 @@ This is a chess engine completely made in Python3
 
 
 
-<!-- GETTING STARTED -->
-## Getting Started
+## Features
 
-To get a local copy up and running follow these simple steps.
+### Current Features
 
-### Prerequisites
+* Player vs Player
+* Only legal moves can be played
+* Pawn promotion (Only to Queen at the moment)
+* En Passant
+* Castling
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+### Planned Features
 
-### Installation
-
-1. Clone the repo
-   ```sh
-   git clone https://github.com/Hazent/PyChess.git
-   ```
-2. Install NPM packages
-   ```sh
-   npm install
-   ```
-
-
+* Square Highlighting
+* Moving animations
+* End screen
+* Resetting the board
+* Algebraic notation
+* Output Move Log to .txt file
+* Load game from .txt files
+* Selection in pawn promotion
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -164,9 +159,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Vincent - [@TheHazent](https://twitter.com/TheHazent)
 
 Project Link: [https://github.com/Hazent/PyChess](https://github.com/Hazent/PyChess)
-
-
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
