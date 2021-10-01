@@ -65,10 +65,10 @@
       </ul>
     </li>
     <li>
-      <a href="#features">Getting Started</a>
+      <a href="#features">Features</a>
       <ul>
-        <li><a href="#current-features">Prerequisites</a></li>
-        <li><a href="#planned-features">Installation</a></li>
+        <li><a href="#current-features">Current Features</a></li>
+        <li><a href="#planned-features">Planned Features</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -76,7 +76,6 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
