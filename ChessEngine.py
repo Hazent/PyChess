@@ -291,12 +291,12 @@ class GameState():
     def getKingSideCastleMoves(self, r, c, moves):
         if self.board[r][c+1] == "--" and self.board[r][c+2] == "--":
             if not self.squareUnderAttack(r, c+1) and not self.squareUnderAttack(r, c+2):
-                moves.append(Move((r, c), (r, c+2), self.board, isCastlingMove=True))
+                moves.append(Move((r, c), (r, c+2), self.board, isCastlingMove=True, KingSide=True))
 
     def getQueenSideCastleMoves(self, r, c, moves):
         if self.board[r][c-1] == "--" and self.board[r][c-2] == "--" and self.board[r][c-3] == "--":
             if not self.squareUnderAttack(r, c-1) and not self.squareUnderAttack(r, c-2):
-                moves.append(Move((r, c), (r, c-2), self.board, isCastlingMove=True))
+                moves.append(Move((r, c), (r, c-2), self.board, isCastlingMove=True, KingSide=False))
 
 class CastleRights():
     def __init__(self, wks, bks, wqs, bqs):
@@ -313,7 +313,7 @@ class Move():
     filesToCols =  {"h" : 7, "g" : 6, "f" : 5, "e" : 4, "d" : 3, "c" : 2, "b" : 1, "a" : 0}
     colsToFiles = {v: k for k, v in filesToCols.items()}
     
-    def __init__(self, startSq, endSq, board, isEnpassantMove=False, isCastlingMove=False):
+    def __init__(self, startSq, endSq, board, isEnpassantMove=False, isCastlingMove=False, KingSide=False):
         self.startRow = startSq[0]
         self.startCol = startSq[1]
         self.endRow = endSq[0]
@@ -333,6 +333,7 @@ class Move():
             self.pieceCaptured = "wp" if self.pieceMoved == "bp" else "bp"
         
         self.isCastlingMove = isCastlingMove
+        self.KingSide = KingSide
 
         self.moveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
     
@@ -343,8 +344,29 @@ class Move():
         return False
 
     def getChessNotation(self):
-        #TODO Make chess notation more accurate
-        return self.getRankFile(self.startRow, self.startCol) + self.getRankFile(self.endRow, self.endCol)
-    
+        #TODO Disambiguating Moves
+        #TODO Pawn Promotion
+        #TODO Check/Checkmate
+        
+        notation = ""
+
+        if self.isCastlingMove:
+            if self.KingSide:
+                return "0-0"
+            else:
+                return "0-0-0"
+        if not self.pieceMoved[1] == "p":
+            notation += self.pieceMoved[1]
+        else:
+            if self.pieceCaptured == "--":
+                return self.getRankFile(self.endRow, self.endCol)
+            else:
+                notation = self.getRankFile(self.startRow, self.startCol)
+                return notation[0] + "x" + self.getRankFile(self.endRow, self.endCol)
+        if self.pieceCaptured == "--":
+            return notation + self.getRankFile(self.endRow, self.endCol)
+        else:
+            return notation + "x" + self.getRankFile(self.endRow, self.endCol)
+   
     def getRankFile(self, r, c):
         return self.colsToFiles[c] + self.rowsToRanks[r]

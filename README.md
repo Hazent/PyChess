@@ -39,7 +39,7 @@
   <h3 align="center">Chessent</h3>
 
   <p align="center">
-    project_description
+    A chess engine completly made in Python3
     <br />
     <a href="https://github.com/Hazent/PyChess"><strong>Explore the docs »</strong></a>
     <br />
@@ -174,3 +174,4 @@ Project Link: [https://github.com/Hazent/PyChess](https://github.com/Hazent/PyCh
 [license-url]: https://github.com/Hazent/PyChess/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/Hazent
+[product-screenschot]: images/screenshot.png

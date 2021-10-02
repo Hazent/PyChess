@@ -58,23 +58,43 @@ def main():
                         if move == validMoves[i]:
                             gs.makeMove(validMoves[i])
                             moveMade = True
+                            print(move.getChessNotation())
                             sqSelected = () # Resets the user clicks
                             playerClicks = []
                     if not moveMade:
                         playerClicks = [sqSelected]
         if moveMade:
+            animateMove(gs.moveLog[-1], screen, gs.board, clock)
             validMoves = gs.getValidMoves()
             moveMade = False
-        drawGameState(screen, gs)
+        drawGameState(screen, gs, validMoves, sqSelected)
         clock.tick(MAX_FPS)
         p.display.flip()
 
-def drawGameState(screen, gs):
+# Square highlighting
+def hightlightSquares(screen, gs, moves, sqSelected):
+    if sqSelected != ():
+        r, c = sqSelected
+        if gs.board[r][c][0] == ("w" if gs.whiteToMove else "b"):
+            s = p.Surface((SQ_SIZE, SQ_SIZE))
+            s.set_alpha(100)
+            s.fill(p.Color('blue'))
+            screen.blit(s, (c*SQ_SIZE, r*SQ_SIZE))
+
+            s.fill(p.Color('yellow'))
+            for move in moves:
+                if move.startRow == r and move.startCol == c:
+                    screen.blit(s, (SQ_SIZE*move.endCol, SQ_SIZE*move.endRow))
+
+
+def drawGameState(screen, gs, moves, sqSelected):
     drawBoard(screen) # Draws the squares on the board
+    hightlightSquares(screen, gs, moves, sqSelected)
     drawPieces(screen, gs.board) # Draws the pieces on top of the squares
 
 # Draws the board using white's perspective
 def drawBoard(screen):
+    global colors
     colors = [p.Color("light gray"), p.Color("dark green")]
     for x in range(DIMENSION):
         for y in range(DIMENSION):
@@ -89,6 +109,26 @@ def drawPieces(screen, board):
             if piece != "--": #Square is not occupied
                 screen.blit(IMAGES[piece], p.Rect(y*SQ_SIZE, x*SQ_SIZE, SQ_SIZE, SQ_SIZE))
 
+# Piece animation
+def animateMove(move, screen, board, clock):
+    global colors
+    dR = move.endRow - move.startRow
+    dC = move.endCol - move.startCol
+    fps = 10 # Frames Per Square
+    frameCount = (abs(dR) + abs(dC)) * fps
+    for frame in range(frameCount + 1):
+        r, c = (move.startRow + dR*frame/frameCount, move.startCol + dC*frame/frameCount)
+        drawBoard(screen)
+        drawPieces(screen, board)
+        color = colors[(move.endRow + move.endCol) % 2]
+        endSquare = p.Rect(move.endCol*SQ_SIZE, move.endRow*SQ_SIZE, SQ_SIZE, SQ_SIZE)
+        p.draw.rect(screen, color, endSquare)
+        if move.pieceCaptured != "--":
+            screen.blit(IMAGES[move.pieceCaptured], endSquare)
+        screen.blit(IMAGES[move.pieceMoved], p.Rect(c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+        p.display.flip()
+        clock.tick(60)
+    
 
 if __name__ == "__main__":
     main()
